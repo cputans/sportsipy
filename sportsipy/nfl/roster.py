@@ -275,7 +275,7 @@ class Player(AbstractPlayer):
         """
         url = self._build_url()
         try:
-            url_data = pq(url)
+            url_data = pq(url=url)
         except (HTTPError, ParserError):
             return None
         # For NFL, a 404 page doesn't actually raise a 404 error, so it needs
@@ -734,7 +734,7 @@ class Player(AbstractPlayer):
         """
         Returns a ``string`` of the player's primary position.
         """
-        return self._position[self._index]
+        return self._position[self._index - 1]
 
     @property
     def height(self):
@@ -1867,7 +1867,7 @@ class Roster:
             output = ("Can't pull requested team page. Ensure the following "
                       "URL exists: %s" % url)
             raise ValueError(output)
-        for player in page('table#roster tbody tr').items():
+        for player in page('table#games_played_team tbody tr').items():
             player_id = self._get_id(player)
             if self._slim:
                 name = self._get_name(player)

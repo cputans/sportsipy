@@ -330,13 +330,14 @@ class Boxscore:
         """
         url = BOXSCORE_URL % uri
         try:
-            url_data = pq(url)
+            url_data = pq(url=url)
         except HTTPError:
             return None
         # For NFL, a 404 page doesn't actually raise a 404 error, so it needs
         # to be manually checked.
         if '404 error' in str(url_data):
             return None
+
         return pq(utils._remove_html_comment_tags(url_data))
 
     def _parse_game_details(self, boxscore):
